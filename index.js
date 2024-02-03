@@ -89,12 +89,23 @@ app.post("/add", async (req, res) => {
 
 app.post("/edit", async (req, res) => {
     try {
-        const updateItemTitle = req.body.updatedItemTitle
-        const updateItemId = req.body.updatedItemId
-        const result = await db.query("UPDATE items SET title = $1 WHERE id = $2", [updateItemTitle, updateItemId])
-        res.redirect("/")
+        if (req.body.updatedItemTitle) {
+            const updateItemTitle = req.body.updatedItemTitle
+            const updateItemId = req.body.updatedItemId
+            const result = await db.query("UPDATE items SET title = $1 WHERE id = $2", [updateItemTitle, updateItemId])
+            res.redirect("/")
+        } else {
+            throw new Error("Give some value")
+        }
     } catch (err) {
-        console.log(err)
+        if (err.message === "Give some value") {
+            await getData()
+            res.render("index", {
+                listTitle: "Today",
+                listItems: items,
+                error: "Give some value",
+            })
+        }
     }
 })
 

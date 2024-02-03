@@ -12,10 +12,9 @@
           <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>">
         </form>
 
-        <p id="title<%=item.id%>">
+        <p id="title<%=item.id%>" >
           <%= item.title %>
         </p>
-
         <form class="edit" action="/edit" method="post">
           <input type="hidden" name="updatedItemId" value="<%= item.id %>">
           <input id="input<%=item.id%>" type="text" name="updatedItemTitle" value="<%= item.title %>" autocomplete="off"
